@@ -31,14 +31,15 @@ preds, refs = [], []
 
 for i in range(num_samples):
     idx = random.randint(0, len(aligned_df) - 1)
-    src = str(aligned_df["vi"][idx])  # input: Vietnamese
-    tgt = str(aligned_df["en"][idx])  # target: English (reference)
+    src = str(aligned_df["en"][idx])  # input: English
+    tgt = str(aligned_df["vi"][idx])  # target: Vietnamese (reference)
 
     # Run translation
     inputs = tokenizer(src, return_tensors="pt", truncation=True, padding=True).to(device)
     outputs = model.generate(**inputs, max_length=256, num_beams=5)
     pred = tokenizer.decode(outputs[0], skip_special_tokens=True)
-
+    print(tgt)
+    print(pred)
     preds.append(pred)
     refs.append(tgt)
 

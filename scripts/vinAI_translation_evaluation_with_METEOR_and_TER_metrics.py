@@ -16,8 +16,8 @@ aligned_df = pd.read_csv(csv_path)
 print(f"Loaded {len(aligned_df)} sentence pairs.")
 
 # --- Model setup ---
-model_name = "vinai/vinai-translate-vi2en-v2"
-tokenizer_en2vi = AutoTokenizer.from_pretrained(model_name, src_lang="vi_VN")
+model_name = "vinai/vinai-translate-en2vi"
+tokenizer_en2vi = AutoTokenizer.from_pretrained(model_name, src_lang="en_XX")
 model_en2vi = AutoModelForSeq2SeqLM.from_pretrained(model_name)
 def translate_en2vi(vn_text: str) -> str:
     input_ids = tokenizer_en2vi(vn_text, return_tensors="pt").input_ids
@@ -38,8 +38,8 @@ preds, refs = [], []
 
 for i in range(num_samples):
     idx = random.randint(0, len(aligned_df) - 1)
-    src = str(aligned_df["vi"][idx])  # input: Vietnamese
-    tgt = str(aligned_df["en"][idx])  # target: English (reference)
+    src = str(aligned_df["en"][idx])  # input: English
+    tgt = str(aligned_df["vi"][idx])  # target: Vietnamese (reference)
 
     # Run translation
     pred = translate_en2vi(src)
